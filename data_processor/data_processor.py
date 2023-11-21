@@ -1,6 +1,6 @@
 class DataProcessor:
     """
-    REQUIRED: CLASS DOCSTRING
+    Handles data input to generate the transactions and identify doubtful ones.
     """
 
     LARGE_TRANSACTION_THRESHOLD = 10000
@@ -8,7 +8,10 @@ class DataProcessor:
 
     def __init__(self, input_data: list):
         """
-        REQUIRED: METHOD DOCSTRING
+        Uses input data to initialize the Data Processor.
+
+        Parameters:
+        input_data (list): List of dictionaries having transaction data.
         """
         self._input_data = input_data
         self._account_summaries = {}
@@ -17,7 +20,10 @@ class DataProcessor:
 
     def process_data(self) -> dict:
         """
-        REQUIRED: METHOD DOCSTRING
+        Calculates transaction statistics, finds doubtful transactions, and generates account summaries by processing input data.
+
+        Returns:
+        dict: Having account summaries, doubtful transactionns and transaction statistics.
         """
         for row in self._input_data:
             self.update_account_summary(row)
@@ -32,7 +38,10 @@ class DataProcessor:
 
     def update_account_summary(self, row: dict) -> None:
         """
-        REQUIRED: METHOD DOCSTRING
+        Accounts summaries are updated with transaction data.
+
+        Parameters:
+        row (dict): Dictionary formatted transaction data.
         """
         account_number = row['Account number']
         transaction_type = row['Transaction type']
@@ -55,7 +64,10 @@ class DataProcessor:
 
     def check_suspicious_transactions(self, row: dict) -> None:
         """
-        REQUIRED: METHOD DOCSTRING
+        checking for doubtful transactions based on amount and currency.
+
+        Parameters:
+        row (dict): Dictionary formatted transaction data.
         """
         amount = float(row['Amount'])
         currency = row['Currency']
@@ -65,7 +77,10 @@ class DataProcessor:
 
     def update_transaction_statistics(self, row: dict) -> None:
         """
-        REQUIRED: METHOD DOCSTRING
+        Updates transaction statistics useing the transaction data.
+
+        Parameters: 
+        row (dict): Dictionary formatted transaction data.
         """
         transaction_type = row['Transaction type']
         amount = float(row['Amount'])
@@ -81,7 +96,13 @@ class DataProcessor:
 
     def get_average_transaction_amount(self, transaction_type: str) -> float:
         """
-        REQUIRED: METHOD DOCSTRING
+        Calculates the average transaction amount of the given transaction.
+
+        Parameters: 
+        Transaction_type (str): Type of transaction.
+
+        Returns: 
+        float: Average transaction amount.
         """
         total_amount = self._transaction_statistics[transaction_type]["total_amount"]
         transaction_count = self._transaction_statistics[transaction_type]["transaction_count"]
