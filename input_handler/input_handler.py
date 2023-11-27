@@ -55,6 +55,7 @@ class InputHandler:
                 reader = csv.DictReader(input_file)
                 for row in reader:
                     input_data.append(row)
+                    data = list(reader)
             return input_data        
         except FileNotFoundError:
             raise FileNotFoundError(f"File: {self._file_path} does not exist.")        
