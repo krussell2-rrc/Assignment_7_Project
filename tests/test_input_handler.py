@@ -132,24 +132,5 @@ class InputHandlerTests(TestCase):
         # Assert
         self.assertEqual(actual_output, expected_output)
 
-        
-
-
-
-
-
-
-
-
-
-        
-        
-
-
-
-
-
-
-
- if __name__ == "__main__":
+if __name__ == "__main__":
     unittest.main()
