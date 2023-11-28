@@ -32,7 +32,6 @@ class TestDataProcessor(TestCase):
         self.assertEqual(account_summary["total_deposits"], 1000)
         self.assertEqual(account_summary["total_withdrawals"], 0)
 
-
     def test_update_account_summary_withdrawal(self):
         # Arrange
         deposit_data = self.INPUT_DATA[0]
@@ -50,7 +49,6 @@ class TestDataProcessor(TestCase):
         self.assertEqual(account_summary["total_deposits"], 1000)
         self.assertEqual(account_summary["total_withdrawals"], 500)
 
-
     def test_check_suspicious_transactions_large(self):
         # Arrange
         large_amount = {"Transaction ID": "3", "Account number": "1001", "Date": "2023-03-02",
@@ -63,7 +61,6 @@ class TestDataProcessor(TestCase):
         # Assert
         self.assertIn(large_amount, self.data_processor._suspicious_transactions)
 
-
     def test_check_suspicious_transactions_uncommon_currency(self):
         # Arrange
         uncommon_currency = {"Transaction ID": "3", "Account number": "1001", "Date": "2023-03-02",
@@ -75,7 +72,6 @@ class TestDataProcessor(TestCase):
 
         # Assert
         self.assertIn(uncommon_currency, self.data_processor._suspicious_transactions)
-
 
     def test_update_transaction_statistics(self):
         # Arrange
@@ -92,7 +88,6 @@ class TestDataProcessor(TestCase):
         self.assertEqual(statistics["total_amount"], 500)
         self.assertEqual(statistics["transaction_count"], 1)
 
-
     def test_get_average_transaction_amount(self):
         # Arrange
         data_processor = DataProcessor([])
@@ -104,15 +99,6 @@ class TestDataProcessor(TestCase):
 
         # Assert
         self.assertEqual(average, 100)
-
-
-
-
-
-        
-
-
-
 
 if __name__ == "__main__":
     unittest.main()

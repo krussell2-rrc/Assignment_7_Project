@@ -10,7 +10,7 @@ class DataProcessor:
         """
         Uses input data to initialize the Data Processor.
 
-        Parameters:
+        Args:
         input_data (list): List of dictionaries having transaction data.
         """
         self._input_data = input_data
@@ -40,7 +40,7 @@ class DataProcessor:
         """
         Accounts summaries are updated with transaction data.
 
-        Parameters:
+        Args:
         row (dict): Dictionary formatted transaction data.
         """
         account_number = row['Account number']
@@ -66,7 +66,7 @@ class DataProcessor:
         """
         checking for doubtful transactions based on amount and currency.
 
-        Parameters:
+        Args:
         row (dict): Dictionary formatted transaction data.
         """
         amount = float(row['Amount'])
@@ -79,7 +79,7 @@ class DataProcessor:
         """
         Updates transaction statistics useing the transaction data.
 
-        Parameters: 
+        Args: 
         row (dict): Dictionary formatted transaction data.
         """
         transaction_type = row['Transaction type']
@@ -98,7 +98,7 @@ class DataProcessor:
         """
         Calculates the average transaction amount of the given transaction.
 
-        Parameters: 
+        Args: 
         Transaction_type (str): Type of transaction.
 
         Returns: 
