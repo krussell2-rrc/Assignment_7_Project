@@ -28,17 +28,20 @@ def main() -> None:
     output_file_prefix = 'output_data'
     output_handler = OutputHandler(processed_data['account_summaries'], processed_data['suspicious_transactions'], processed_data['transaction_statistics'])
 
-
     # Joins the current directory, the relative path to the output folder and the filename 
     # to create a complete path to each of the output files.
     account_summaries_file = os.path.join(current_dir,f'output\\{output_file_prefix}_account_summaries.csv')
     suspicious_transactions_file = os.path.join(current_dir,f'output\\{output_file_prefix}_suspicious_transactions.csv')
     transaction_statistics_file = os.path.join(current_dir,f'output\\{output_file_prefix}_transaction_statistics.csv')
 
-
     output_handler.write_account_summaries_to_csv(account_summaries_file)
     output_handler.write_suspicious_transactions_to_csv(suspicious_transactions_file)
     output_handler.write_transaction_statistics_to_csv(transaction_statistics_file)
+
+    # Defining a new filtered filename
+    filtered_filename = os.path.join(current_dir, f'output\\{output_file_prefix}_filtered_account_summaries.csv')
+    filtered_data = output_handler.filter_account_summaries("balance", 600, False)
+    output_handler.write_filtered_account_summaries_to_csv(filtered_data, filtered_filename)
 
 if __name__ == '__main__':
     main()

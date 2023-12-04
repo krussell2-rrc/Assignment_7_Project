@@ -3,7 +3,6 @@ from unittest.mock import mock_open, patch
 from unittest import TestCase
 from output_handler.output_handler import OutputHandler
 
-
 class TestOutputHandler(TestCase):
     """The following constants have been provided to reduce the amount of 
     code needed when creating OutputHandler class objects in the tests that 
@@ -24,8 +23,7 @@ class TestOutputHandler(TestCase):
 
     TRANSACTION_STATISTICS = {'deposit': {'total_amount': 300, 'transaction_count': 2}, 
                             'withdrawal': {'total_amount': 50, 'transaction_count': 1}}
-        
-
+    
     def test_write_account_summaries_to_csv(self):
         # Arrange
         with patch("builtins.open", mock_open()) as mock_file:
@@ -71,6 +69,49 @@ class TestOutputHandler(TestCase):
             expected = len(self.TRANSACTION_STATISTICS) + 1
             self.assertEqual(actual, expected) 
 
+    def test_filter_account_summaries_less_than(self):
+        # Arrange
+        handler = OutputHandler(self.ACCOUNT_SUMMARIES, [], {})
+        filter_field = "balance"
+        filter_value = 500
+        filter_mode = False
+
+        # Act
+        filtered_data = handler.filter_account_summaries(filter_field, filter_value, filter_mode)
+
+        # Assert
+        self.assertTrue(all(record['Balance'] <= 500 for record in filtered_data))
+
+    def test_filter_account_summaries_greater_than(self):
+        # Arrange
+        handler = OutputHandler(self.ACCOUNT_SUMMARIES, [], {})
+        filter_field = "total_deposits"
+        filter_value = 1000
+        filter_mode = True
+
+        # Act
+        filtered_data = handler.filter_account_summaries(filter_field, filter_value, filter_mode)
+
+        # Assert
+        self.assertTrue(all(record['Total Deposits'] >= 1000 for record in filtered_data))
+
+    def test_write_filtered_summaries_to_csv(self):
+        # Arrange
+        handler = OutputHandler(self.ACCOUNT_SUMMARIES, [], {})
+        filter_field = "total_withdrawals"
+        filter_value = 200
+        filter_mode = False
+
+        # Act
+        filtered_data = handler.filter_account_summaries(filter_field, filter_value, filter_mode)
+        filtered_filename = "filtered_account_summaries.csv"
+        handler.write_filtered_account_summaries_to_csv(filtered_data, filtered_filename)
+
+        # Assert
+        with open(filtered_filename, 'r') as file:
+            lines = file.readlines()
+            self.assertEqual(len(lines), len(filtered_data) + 1)
 
 if __name__ == "__main__":
     unittest.main()
+    
