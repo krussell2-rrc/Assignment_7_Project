@@ -4,8 +4,7 @@ Group Financial Data Processing assignment.
 
 # Authors
 - Developer 1: {Kareem Russell}
-- Developer 2: {Parneet Kaur}
-- Developer 3: {Manjot Kaur}
+- Developer 2: {Manjot Kaur}
 
 # Milestone 1
 ## Developer 1 Tasks (Issue 1):

@@ -21,6 +21,8 @@ def main() -> None:
 
     input_handler = InputHandler(input_file_path)
     input_data = input_handler.read_input_data()
+    for row in input_data:
+        print(row)
 
     data_processor = DataProcessor(input_data)
     processed_data = data_processor.process_data()
