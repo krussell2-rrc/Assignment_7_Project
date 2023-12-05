@@ -100,14 +100,14 @@ class OutputHandler:
 
     def filter_account_summaries(self, filter_field: str, filter_value: int, filter_mode: bool) -> list:
         """
-        This method filter the account summaries based on the provided criteria.
+        This method filters the account summaries based on the provided criteria.
 
         Args:
             filter field (string): One of the following filter fields: "balance","total_deposits" or "total_withdrawals".
             filter value (integer): An integer value to which the filter field will be compared.
             filter mode (boolean): True: Greater than or Equal, False: Less than or Equal.
         Returns:
-            list : filtered_account_summaries
+            list : The filtered account summaries.
         """
         filtered_account_summaries = []
         
