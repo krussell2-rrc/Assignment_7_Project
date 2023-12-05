@@ -82,10 +82,6 @@ class InputHandlerTests(TestCase):
 
     def test_read_csv_data_exception(self):
         # Arrange
-        file_contents = (
-            "Transaction ID,Account number,Date,Transaction type,Amount,Currency,Description\n"
-            "1,1001,2023-03-01,deposit,1000,CAD,Salary\n"
-        )
         filename = "doesnotexist.csv"
 
         target = InputHandler(file_path= filename)
@@ -128,6 +124,74 @@ class InputHandlerTests(TestCase):
         with patch('builtins.open', mock_open(read_data=file_contents)):
             handler = InputHandler(filename)
             actual_output = handler.read_input_data()
+
+        # Assert
+        self.assertEqual(actual_output, expected_output)
+
+    # data_validation tests
+
+    def test_data_validation_non_numeric_amount(self):
+        # Arrange
+        test_data = [
+            {'Transaction ID': '1', 'Account number': '1001', 'Date': '2023-03-01', 'Transaction type': 'deposit', 'Amount': '1000', 'Currency': 'CAD', 'Description': 'Salary'},
+            {'Transaction ID': '2', 'Account number': '1002', 'Date': '2023-03-01', 'Transaction type': 'withdrawal', 'Amount': 'non-numeric', 'Currency': 'CAD', 'Description': 'Salary'},
+            {'Transaction ID': '3', 'Account number': '1003', 'Date': '2023-03-01', 'Transaction type': 'transfer', 'Amount': '1500', 'Currency': 'CAD', 'Description': 'Salary'}
+        ]
+
+        filename = "test.csv"
+
+        expected_output = [
+            {'Transaction ID': '1', 'Account number': '1001', 'Date': '2023-03-01', 'Transaction type': 'deposit', 'Amount': '1000', 'Currency': 'CAD', 'Description': 'Salary'},
+            {'Transaction ID': '3', 'Account number': '1003', 'Date': '2023-03-01', 'Transaction type': 'transfer', 'Amount': '1500', 'Currency': 'CAD', 'Description': 'Salary'}
+        ]
+
+        # Act
+        handler = InputHandler(file_path= filename)
+        actual_output = handler.data_validation(data= test_data)
+
+        # Assert
+        self.assertEqual(actual_output, expected_output)
+
+    def test_data_validation_negative_amount(self):
+        # Arrange
+        test_data = [
+            {'Transaction ID': '1', 'Account number': '1001', 'Date': '2023-03-01', 'Transaction type': 'deposit', 'Amount': '1000', 'Currency': 'CAD', 'Description': 'Salary'},
+            {'Transaction ID': '2', 'Account number': '1002', 'Date': '2023-03-01', 'Transaction type': 'withdrawal', 'Amount': '-5000', 'Currency': 'CAD', 'Description': 'Salary'},
+            {'Transaction ID': '3', 'Account number': '1003', 'Date': '2023-03-01', 'Transaction type': 'transfer', 'Amount': '1500', 'Currency': 'CAD', 'Description': 'Salary'}
+        ]
+
+        filename = "test.csv"
+
+        expected_output = [
+            {'Transaction ID': '1', 'Account number': '1001', 'Date': '2023-03-01', 'Transaction type': 'deposit', 'Amount': '1000', 'Currency': 'CAD', 'Description': 'Salary'},
+            {'Transaction ID': '3', 'Account number': '1003', 'Date': '2023-03-01', 'Transaction type': 'transfer', 'Amount': '1500', 'Currency': 'CAD', 'Description': 'Salary'}
+        ]
+
+        # Act
+        handler = InputHandler(file_path= filename)
+        actual_output = handler.data_validation(data= test_data)
+
+        # Assert
+        self.assertEqual(actual_output, expected_output)
+    
+    def test_data_validation_invalid_type(self):
+        # Arrange
+        test_data = [
+            {'Transaction ID': '1', 'Account number': '1001', 'Date': '2023-03-01', 'Transaction type': 'deposit', 'Amount': '1000', 'Currency': 'CAD', 'Description': 'Salary'},
+            {'Transaction ID': '2', 'Account number': '1002', 'Date': '2023-03-01', 'Transaction type': 'peanut butter', 'Amount': '5000', 'Currency': 'CAD', 'Description': 'Salary'},
+            {'Transaction ID': '3', 'Account number': '1003', 'Date': '2023-03-01', 'Transaction type': 'transfer', 'Amount': '1500', 'Currency': 'CAD', 'Description': 'Salary'}
+        ]
+
+        filename = "test.csv"
+
+        expected_output = [
+            {'Transaction ID': '1', 'Account number': '1001', 'Date': '2023-03-01', 'Transaction type': 'deposit', 'Amount': '1000', 'Currency': 'CAD', 'Description': 'Salary'},
+            {'Transaction ID': '3', 'Account number': '1003', 'Date': '2023-03-01', 'Transaction type': 'transfer', 'Amount': '1500', 'Currency': 'CAD', 'Description': 'Salary'}
+        ]
+
+        # Act
+        handler = InputHandler(file_path= filename)
+        actual_output = handler.data_validation(data= test_data)
 
         # Assert
         self.assertEqual(actual_output, expected_output)
