@@ -11,6 +11,9 @@ class InputHandler:
 
         Args: 
             file_path (str): The file path of the input.
+
+        Returns:
+            None
         """
         self._file_path = file_path
 
@@ -20,7 +23,7 @@ class InputHandler:
         Gets the format of the file specified by the file path.
 
         Returns:
-            The format of the file.
+            str: The format of the file.
         """
         return self._file_path.split('.')[-1]
 
@@ -29,7 +32,7 @@ class InputHandler:
         Reads the data of the CSV or JSON file specified by the file path.
 
         Returns:
-            A list containing data from the CSV or JSON file after data validation.         
+            list: A list containing data from the CSV or JSON file after data validation.         
         """
         data = []
         file_format = self.get_file_format()
@@ -48,7 +51,7 @@ class InputHandler:
             FileNotFoundError: Raised if the file path does not exist.
 
         Returns: 
-            A list of dictionaries containing data from the CSV file.
+            list: A list of dictionaries containing data from the CSV file.
         """
         input_data = []
         try:
@@ -68,7 +71,7 @@ class InputHandler:
             FileNotFoundError: Raised if the file path does not exist.
         
         Returns:
-            A list containing data loaded from the JSON file.
+            list: A list containing data loaded from the JSON file.
         """
         input_data = []
         try:
@@ -78,7 +81,7 @@ class InputHandler:
         except FileNotFoundError:
             raise FileNotFoundError(f"File: {self._file_path} does not exist.")
 
-    def data_validation(self, data: list):
+    def data_validation(self, data) -> list:
         """
         Validates input data from the read_input_data method.
 
@@ -90,7 +93,7 @@ class InputHandler:
             TypeError: Raised if the transaction type is not a valid transaction type.
 
         Returns:
-            A list of dictionaries containing only valid data.        
+            list: A list of dictionaries containing only valid data.        
         """
         valid_data = []
         valid_amount = False
